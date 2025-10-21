@@ -9,6 +9,19 @@
   --color-background: oklch(0.2749 0.0188 258.37);
   --color-lightbackground: oklch(0.3317 0.0173 262.26);
 
+  --color-primary: oklch(92.458% 0.07556 200.05);
+  --color-primary-50: oklch(100% 0 none);
+  --color-primary-100: oklch(100% 0 none);
+  --color-primary-200: oklch(100% 0 none);
+  --color-primary-300: oklch(99.105% 0.00844 197.02);
+  --color-primary-400: oklch(95.63% 0.04311 200.02);
+  --color-primary-500: oklch(92.458% 0.07556 200.05);
+  --color-primary-600: oklch(88.697% 0.11103 200.32);
+  --color-primary-700: oklch(86.018% 0.13405 200.32);
+  --color-primary-800: oklch(83.087% 0.14013 201.13);
+  --color-primary-900: oklch(68.664% 0.11549 201.4);
+  --color-primary-950: oklch(61.274% 0.10286 200.73);
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,4 +44,22 @@ body {
 }
 #mainbody {
   padding: 8px 2px 2px 8px;
+}
+
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: var(--color-primary-500);
+}
+
+.link {
+  text-decoration: none;
+  
+}
+
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--color-primary-400)
 }

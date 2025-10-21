@@ -7,6 +7,7 @@ import { Navbar } from "./components/navbar";
 
 
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
+import { Footer } from "./components/footer";
 
 
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <body>
           <Navbar/>
           {children}
+          <Footer/>
         </body>
       </html>
     </ThemeProvider> 
