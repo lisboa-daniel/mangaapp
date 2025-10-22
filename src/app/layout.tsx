@@ -8,6 +8,7 @@ import { Navbar } from "./components/navbar";
 
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
 import { Footer } from "./components/footer";
+import { MangaProvider } from "./context/mangaContext";
 
 
 
@@ -47,15 +48,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider theme={theme}>
-      <html lang="en">
-        <body>
-          <Navbar/>
-          {children}
-          <Footer/>
-        </body>
-      </html>
-    </ThemeProvider> 
+    <MangaProvider>
+      <ThemeProvider theme={theme}>
+        <html lang="en">
+          <body>
+            <Navbar/>
+            {children}
+            <Footer/>
+          </body>
+        </html>
+      </ThemeProvider> 
+    </MangaProvider>
  
   );
 }

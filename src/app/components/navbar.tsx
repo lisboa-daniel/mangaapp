@@ -53,8 +53,8 @@ export function Navbar() {
 
     const links : Link[] = [
         {
-            title: "List",
-            href: "/list"
+            title: "Catalog",
+            href: "/catalog"
          
         },
 
