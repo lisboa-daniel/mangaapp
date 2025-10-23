@@ -6,6 +6,8 @@ import Grid from '@mui/material/Grid';
 import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
   ...theme.typography.body2,
@@ -23,14 +25,19 @@ interface MangaListViewProps {
 }
 
 
-
 function MangaItem({data} : {data:Manga}){
 
+  const router = useRouter();
+
+  const goToPage = (uri : string) => {
+  
+    router.replace(uri)  ;
+  }
   const [optionsHover, setOptionsHover] = useState<Boolean>(false);
 
   return (
         <div className='flex flex-col p-2 items-center justify-center'>
-                  <p className='w-full text-center mb-2'>{data.title}</p>
+                  <a href={`catalog/manga/${data.id}`}><p className='w-full text-center mb-2'>{data.title}</p></a>
                   <div id='mangapanel' className='flex flex-row gap-2 items-center justify-center'  onMouseLeave={() => setOptionsHover(false)} >
                     
                     <Box sx={{position: 'relative', zIndex: 1}} onMouseEnter={() => setOptionsHover(true)} onClick={(e) => setOptionsHover(!optionsHover)}>                    
@@ -41,6 +48,7 @@ function MangaItem({data} : {data:Manga}){
                             <span id='menuButtons' className='flex flex-col pointer-events-auto gap-2 z-3' onClick={(e) => e.stopPropagation()}>
 
                               <Button variant='outlined'>Add to list</Button>
+                              <Button onClick={() => goToPage(`/catalog/manga/${data.id}`)} variant='outlined'>Details</Button>
                               
                               <div className='border border-solid border-[#86c3c6] rounded p-2'>
                                 <p className='text-primary-500'>Chapters Read</p>
