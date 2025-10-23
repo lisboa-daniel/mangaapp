@@ -127,7 +127,7 @@ export function Navbar() {
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
                       
                             
-                            <a title="home" href="/" aria-label="home"><Logo className="mr-2"/></a>           
+                            <a title="home" href="/" aria-label="home"><Logo className="mr-6"/></a>           
                             {links.map((value, index) => (
 
                             <span className="m-2" key={index}>
