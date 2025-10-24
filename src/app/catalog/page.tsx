@@ -29,7 +29,7 @@ export default function List() {
           }}
           />
 
-          <Button variant="outlined">New entry</Button>
+          <Button onClick={() => {window.location.href = '/catalog/manga/new'}} variant="outlined">New entry</Button>
           
         </div>
 

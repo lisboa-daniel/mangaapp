@@ -8,7 +8,9 @@ import { Navbar } from "./components/navbar";
 
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
 import { Footer } from "./components/footer";
-import { MangaProvider } from "./context/mangaContext";
+import { MangaProvider, useManga } from "./context/mangaContext";
+import { useEffect } from "react";
+import { GetAllManga } from "./lib/actions";
 
 
 
@@ -47,6 +49,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+  //   useEffect(() => {
+  //   const fetchMangas = async () => {
+  //     const data = await GetAllManga(); // returns Manga[]
+  //     setMangas(data);
+  //   };
+
+  //   fetchMangas();
+  // }, []);
+
+  
   return (
     <MangaProvider>
       <ThemeProvider theme={theme}>
@@ -62,3 +76,4 @@ export default function RootLayout({
  
   );
 }
+

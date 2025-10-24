@@ -31,7 +31,7 @@ function MangaItem({data} : {data:Manga}){
 
   const goToPage = (uri : string) => {
   
-    router.replace(uri)  ;
+    window.location.href = uri ;
   }
   const [optionsHover, setOptionsHover] = useState<Boolean>(false);
 
