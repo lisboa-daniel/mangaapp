@@ -1,6 +1,6 @@
 'use server';
 
-const API_URI = "http://192.168.0.87:3000/api/manga"
+const API_URI = "http://192.168.0.87:3000/api/manga";
 
 export async function GetAllManga() : Promise<Manga[] > {
 
@@ -26,7 +26,8 @@ export async function GetAllManga() : Promise<Manga[] > {
 export async function GetMangaById(id: string): Promise<Manga | undefined> {
     try {
       const response = await fetch(`${API_URI}/${id}`, {
-        // This tells Next.js to cache the result for 1 hour
+
+        // Cache result for 1 hour
         next: { revalidate: 3600 }, 
       });
   

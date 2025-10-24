@@ -38,7 +38,7 @@ async function MangaItem({ data }: { data: Manga }) {
         </div>
       </div>
 
-      <div id="infodump" className="flex flex-col w-full items-start mt-2 gap-2">
+      <div id="infodump" className="flex flex-col items-start mt-2 gap-2 md:w-[600px]">
         {infoList.map((item, i) => (
           <span key={i} className="flex flex-row gap-2">
             <p className="font-bold">{item.label}:</p>
@@ -47,7 +47,7 @@ async function MangaItem({ data }: { data: Manga }) {
         ))}
       </div>
 
-      <span className="flex flex-row gap-2 items-start w-full mt-2">
+      <span className="flex flex-row gap-2 items-start md:w-[600px] mt-2">
         {data.tags.map((tag, i) => (
           <p className="p-2 font-bold bg-primary-900 text-white" key={i}>
             {tag}
