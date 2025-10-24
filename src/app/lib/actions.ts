@@ -23,29 +23,22 @@ export async function GetAllManga() : Promise<Manga[] > {
 
 }
 
-export async function GetMangaById(id : string) : Promise<Manga | undefined> {
-    'use cache'
+export async function GetMangaById(id: string): Promise<Manga | undefined> {
     try {
-
-        const response = await fetch(API_URI + `/${id}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-    
-        if (result)
-            return result as Manga;
-
-        return undefined;
-    
-
-       
-      
-
-    } catch (error : any){
-        throw error;
+      const response = await fetch(`${API_URI}/${id}`, {
+        // This tells Next.js to cache the result for 1 hour
+        next: { revalidate: 3600 }, 
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      return result as Manga | undefined;
+    } catch (error: any) {
+      console.error(error);
+      return undefined;
     }
-
-}
-
+  }
+  

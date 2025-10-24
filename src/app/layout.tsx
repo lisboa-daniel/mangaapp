@@ -9,8 +9,9 @@ import { Navbar } from "./components/navbar";
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material/styles';
 import { Footer } from "./components/footer";
 import { MangaProvider, useManga } from "./context/mangaContext";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { GetAllManga } from "./lib/actions";
+import { Skeleton } from "@mui/material";
 
 
 
@@ -62,17 +63,18 @@ export default function RootLayout({
 
   
   return (
-    <MangaProvider>
-      <ThemeProvider theme={theme}>
-        <html lang="en">
-          <body>
+    <ThemeProvider theme={theme}>
+      <html lang="en">
+        <body>
+          <Suspense fallback={<Skeleton />}>
             <Navbar/>
-            {children}
-            <Footer/>
-          </body>
-        </html>
-      </ThemeProvider> 
-    </MangaProvider>
+          </Suspense>
+          {children}
+          <Footer/>
+        </body>
+      </html>
+    </ThemeProvider> 
+ 
  
   );
 }

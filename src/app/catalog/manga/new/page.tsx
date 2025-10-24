@@ -9,37 +9,37 @@ import { useEffect, useState } from "react";
 export default function Page() {
 
 
-    const [manga, setManga] = useState<Manga>();
+    // const [manga, setManga] = useState<Manga>();
 
-    const params = useSearchParams();
-    const {mangas} = useManga();
-    useEffect( () => {
-        if (params.get("edit")){
-            let id = params.get("edit");
+    // const params = useSearchParams();
+    // const {mangas} = useManga();
+    // useEffect( () => {
+    //     if (params.get("edit")){
+    //         let id = params.get("edit");
 
             
-            const findManga = mangas.find( m => m.id === Number(id));
-            if (findManga)
-                setManga(findManga);
+    //         const findManga = mangas.find( m => m.id === Number(id));
+    //         if (findManga)
+    //             setManga(findManga);
 
-        }
+    //     }
 
-    }, [params]);
+    // }, [params]);
 
 
-    useEffect(() => {
-    if (manga !== undefined) {
-        setTitle(manga.title);
-        setAuthor(manga.author);
-        setStatus(manga.status);
-        setTags(manga.tags.join(", "));
-        setDemographic(manga.demographic);
-        setSerialization(manga.serialization);
-        setSynopsis((manga.synopsis) ? manga.synopsis : "");
-        setIsbn((manga.ISBN) ? manga.ISBN : "");
-        setImagePath(manga.picture);
-    }
-    }, [manga]);
+    // useEffect(() => {
+    // if (manga !== undefined) {
+    //     setTitle(manga.title);
+    //     setAuthor(manga.author);
+    //     setStatus(manga.status);
+    //     setTags(manga.tags.join(", "));
+    //     setDemographic(manga.demographic);
+    //     setSerialization(manga.serialization);
+    //     setSynopsis((manga.synopsis) ? manga.synopsis : "");
+    //     setIsbn((manga.ISBN) ? manga.ISBN : "");
+    //     setImagePath(manga.picture);
+    // }
+    // }, [manga]);
 
     //fields
 

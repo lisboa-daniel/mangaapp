@@ -1,4 +1,5 @@
 'use client';
+
 import * as React from 'react';
 
 import { usePathname, useRouter } from "next/navigation";
@@ -24,7 +25,7 @@ import { Avatar, Container, Menu, MenuItem, Tooltip } from "@mui/material";
 import TabLink from "./tabLink";
 
 export function Navbar() {
-
+    
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   
