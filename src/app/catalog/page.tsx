@@ -3,10 +3,23 @@
 import { Button, Divider, TextField } from "@mui/material";
 import { useManga } from "../context/mangaContext";
 import MangaListView from "../components/mangaListView";
+import { useEffect, useState } from "react";
+import { GetAllManga } from "../lib/actions";
 
 
 export default function List() {
-    const {mangas, setMangas} = useManga();
+
+  const [manga, setManga] = useState<Manga[]>([]);
+
+  useEffect(() => {
+    const fetchMangas = async () => {
+      const data = await GetAllManga(); // returns Manga[]
+      setManga(data);
+    };
+
+    fetchMangas();
+  }, []);
+
 
     return (
       <main className="w-full flex flex-col  p-12 min-h-[88vh]">
@@ -33,7 +46,7 @@ export default function List() {
           
         </div>
 
-        <MangaListView list={mangas}/>
+        <MangaListView list={manga}/>
         
 
       </main>
