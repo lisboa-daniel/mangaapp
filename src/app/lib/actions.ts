@@ -1,12 +1,86 @@
 'use server';
 
-const API_URI = "http://192.168.0.87:3000/api/manga";
+const API_URI = process.env.API_URL;
+
+
+export async function DeleteManga(id : number) : Promise<number> {
+    try {
+
+        const options: RequestInit = {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+        }
+
+      const action = await fetch(`${API_URI}/${id}`, options);
+
+      if (!action.ok) {
+        console.error(action.json());
+      }  
+      
+      return action.status;
+      
+    } catch (error : any) {
+      throw error;
+    } 
+}
+
+export async function CreateManga(item : NewMangaEntity) : Promise<number> {
+    try {
+
+        const options: RequestInit = {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(item),
+        }
+
+      const action = await fetch(`${API_URI}`, options);
+
+      if (!action.ok) {
+        console.error(action.json());
+      }  
+      
+      return action.status;
+      
+    } catch (error : any) {
+      throw error;
+    } 
+}
+
+
+export async function UpdateManga(id : number, item : NewMangaEntity) : Promise<number> {
+    try {
+
+        const options: RequestInit = {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(item),
+        }
+
+      const action = await fetch(`${API_URI}/${id}`, options);
+
+      if (!action.ok) {
+        console.error(action.json());
+      }  
+      
+      return action.status;
+      
+    } catch (error : any) {
+      throw error;
+    } 
+}
+
 
 export async function GetAllManga() : Promise<Manga[] > {
 
     try {
 
-        const response = await fetch(API_URI);
+        const response = await fetch(`${API_URI}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -25,13 +99,9 @@ export async function GetAllManga() : Promise<Manga[] > {
 
 export async function GetMangaById(id: string): Promise<Manga | undefined> {
     try {
-      const response = await fetch(`${API_URI}/${id}`, {
-
-        // Cache result for 1 hour
-        next: { revalidate: 3600 }, 
-      });
+      const response = await fetch(`${API_URI}/${id}`);
   
-      if (!response.ok) {
+      if (response.status != 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
   
@@ -42,4 +112,7 @@ export async function GetMangaById(id: string): Promise<Manga | undefined> {
       return undefined;
     }
   }
+
+
+
   

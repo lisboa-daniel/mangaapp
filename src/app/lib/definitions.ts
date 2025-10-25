@@ -17,3 +17,16 @@ type Manga = {
     createdAt : string
     updatedAt : string
 }
+
+type NewMangaEntity =  {
+    title: string
+    author: string
+    status: string
+    tags: string[]
+    demographic: string
+    serialization: string
+    picture: string
+    ISBN: string
+    synopsis?: string
+
+}

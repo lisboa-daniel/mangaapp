@@ -1,8 +1,8 @@
 'use client';
 
 import { useManga } from "@/app/context/mangaContext";
-import { GetMangaById } from "@/app/lib/actions";
-import { Save, UploadFile } from "@mui/icons-material";
+import { CreateManga, DeleteManga, GetMangaById, UpdateManga } from "@/app/lib/actions";
+import { DeleteForever, Save, UploadFile } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,12 +12,14 @@ export default function Page() {
 
     const [manga, setManga] = useState<Manga | undefined>();
 
+
     const params = useSearchParams();
 
     useEffect( () => {
         if (params.get("edit")){
             let id = params.get("edit");
             loadData(id as string);
+            
             
 
         }
@@ -27,9 +29,63 @@ export default function Page() {
 
     const loadData = async (id : string) => {
         const findManga = GetMangaById(id);
-        if (findManga)
+        if (findManga) {
             setManga(await findManga);
+  
+        }
+           
     }
+
+    const deleteData = async() => {
+        try {
+            if (manga){
+                const request = await DeleteManga(manga?.id);
+
+                if (request == 200){
+                    window.location.href = "/catalog"
+                }
+            }
+            
+
+        } catch (error : any) {
+            console.error(error);
+        }
+    }
+
+    const saveData = async () => {
+
+        const body : NewMangaEntity = {
+            title : title,
+            author: author,
+            status: status,
+            tags: tags.split(","),
+            demographic: demographic,
+            serialization: serialization,
+            picture: 'picture',
+            ISBN: ISBN,
+            synopsis: synopsis
+
+        };
+
+        
+
+        try {
+
+            if (!manga){
+                const response = CreateManga(body);
+                console.log(await response);
+            } else {
+                const response = UpdateManga(manga.id , body);
+                console.log(await response);
+            }
+       
+
+
+        } catch (err : any) {
+            console.error(err);
+        }
+
+    };
 
 
     useEffect(() => {
@@ -41,7 +97,7 @@ export default function Page() {
         setDemographic(manga.demographic);
         setSerialization(manga.serialization);
         setSynopsis((manga.synopsis) ? manga.synopsis : "");
-        setIsbn((manga.ISBN) ? manga.ISBN : "");
+        setISBN((manga.ISBN) ? manga.ISBN : "");
         setImagePath(manga.picture);
     }
     }, [manga]);
@@ -55,7 +111,7 @@ export default function Page() {
     const [demographic, setDemographic] = useState<string>('');
     const [serialization, setSerialization] = useState<string>('');
     const [synopsis, setSynopsis] = useState<string>('');
-    const [isbn, setIsbn] = useState<string>('');
+    const [ISBN, setISBN] = useState<string>('');
     const [imagePath, setImagePath] = useState<string>('/defaultCover.png');
     
   
@@ -118,14 +174,15 @@ export default function Page() {
                     rows={4}
                     />
                     <TextField
-                    value={isbn}
-                    onChange={(e) => setIsbn(e.target.value)}
+                    value={ISBN}
+                    onChange={(e) => setISBN(e.target.value)}
                     label="ISBN"
                     id="isbn"
                     aria-label="isbn_input"
                     />
 
-                <Button startIcon={<Save/>} variant="outlined">Save</Button>
+                <Button onClick={saveData} startIcon={<Save/>} variant="outlined">Save</Button>
+                {(manga) && <Button onClick={deleteData} startIcon={<DeleteForever/>} variant="outlined">Delete Entry</Button>}
          
             </span>
 

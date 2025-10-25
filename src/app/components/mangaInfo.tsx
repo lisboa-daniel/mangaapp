@@ -61,7 +61,7 @@ async function MangaItem({ data }: { data: Manga }) {
 }
 export default async function MangaInfo({ params }: { params: { id: string } }) { 
   
-const { id } = await params;
+    const { id } = await params;
 
     try {
     const data = await GetMangaById(id);
