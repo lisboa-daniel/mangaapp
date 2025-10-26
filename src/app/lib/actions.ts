@@ -1,6 +1,6 @@
 'use server';
 
-const API_URI = process.env.API_URL;
+const API_URI = process.env.API_URL + "manga";
 
 
 export async function DeleteManga(id : number) : Promise<number> {
@@ -116,3 +116,8 @@ export async function GetMangaById(id: string): Promise<Manga | undefined> {
 
 
   
+
+  export async function signup(formData: FormData) {
+
+
+  }

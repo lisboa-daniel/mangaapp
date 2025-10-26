@@ -1,3 +1,5 @@
+
+
 type Link =  {
     title : string,
     href: string
@@ -30,3 +32,12 @@ type NewMangaEntity =  {
     synopsis?: string
 
 }
+
+
+type User = {
+  name: string
+  email: string
+  password: string
+}
+
+ 
