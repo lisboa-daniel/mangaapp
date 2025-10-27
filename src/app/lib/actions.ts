@@ -1,5 +1,7 @@
 'use server';
 
+import { getUserFromSession } from "../actions/auth";
+
 const API_URI = process.env.API_URL + "manga";
 
 
@@ -115,9 +117,23 @@ export async function GetMangaById(id: string): Promise<Manga | undefined> {
 
 
 
-  
+export async function GetBookmarks() {
 
-  export async function signup(formData: FormData) {
+  const session : DecodedSessionPayload | null = await getUserFromSession();
+  if (session) {
+    const userId : string = session.id;
+    const uri = process.env.API_URL + `bookmark/user/${userId}`;
+
+    const response = await fetch(uri);
 
 
+    if (response.ok){
+      const result = await response.json();
+
+      return result as Bookmark[];
+    } else {
+      console.error("could not fetch data");
+    }
   }
+  
+}

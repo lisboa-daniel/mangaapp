@@ -41,3 +41,17 @@ type User = {
 }
 
  
+
+type DecodedSessionPayload = {
+    id : string,
+    email : string
+}
+
+
+type Boookmark = {
+    id: string,
+    userId: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string
+}
