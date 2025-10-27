@@ -13,6 +13,8 @@
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
     "@types/jsonwebtoken": "^9.0.10",
+    "@uploadcare/file-uploader": "^1.23.1",
+    "@uploadcare/react-uploader": "^1.10.2",
     "argon2": "^0.44.0",
     "cookies": "^0.9.1",
     "jsonwebtoken": "^9.0.2",

@@ -6,10 +6,20 @@ import { DeleteForever, Save, UploadFile } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import * as UC from '@uploadcare/file-uploader';
+import '@uploadcare/file-uploader/web/uc-file-uploader-minimal.min.css';
+import dynamic from "next/dynamic";
+const UploadcareUploader = dynamic(
+  () => import('@/app/components/fileuploader'),
+  { 
+    ssr: false, // This is the key fix!
+    loading: () => <p>Loading file uploader...</p> // Optional: Show a loading state
+  }
+);
 
 export default function Page() {
 
-
+    UC.defineComponents(UC);
     const [manga, setManga] = useState<Manga | undefined>();
 
 
@@ -61,9 +71,10 @@ export default function Page() {
             tags: tags.split(","),
             demographic: demographic,
             serialization: serialization,
-            picture: 'picture',
+            picture: imagePath,
             ISBN: ISBN,
-            synopsis: synopsis
+            synopsis: synopsis,
+        
 
         };
 
@@ -186,12 +197,22 @@ export default function Page() {
          
             </span>
 
-            <span className="border border-primary-500 rounded md:min-w-[280px] md:max-h-[420px] flex flex-col items-center justify-center p-2 gap-2">
+                
+            <span className="border border-primary-500 rounded md:min-w-[280px] mt-10 mb-10 gap-7 flex flex-col items-center justify-center p-2 ">
 
                  <img src={imagePath}/>
-                <Button startIcon={<UploadFile/>} variant="outlined">Upload Cover</Button>
+                {/* <Button startIcon=  {<UploadFile/>} variant="outlined">Upload Cover</Button> */}
 
                
+                        
+                <UploadcareUploader onChange={(fileUrl) => setImagePath(fileUrl)}/>
+                <TextField
+                    value={imagePath}
+                    onChange={(e) => setImagePath(e.target.value)}
+                    label="Image URL"
+                    id="picture"
+                    aria-label="picture_input"
+                    />
             </span>
 
         </div>

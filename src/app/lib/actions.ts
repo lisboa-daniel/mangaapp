@@ -1,5 +1,6 @@
 'use server';
 
+import { redirect } from "next/navigation";
 import { getUserFromSession } from "../actions/auth";
 
 const API_URI = process.env.API_URL + "manga";
@@ -39,13 +40,16 @@ export async function CreateManga(item : NewMangaEntity) : Promise<number> {
           body: JSON.stringify(item),
         }
 
-      const action = await fetch(`${API_URI}`, options);
+      const response = await fetch(`${API_URI}`, options);
 
-      if (!action.ok) {
-        console.error(action.json());
-      }  
+      if (response.status != 201) {
+        console.error(response.json());
+      }  else {
+        
+        redirect("/catalog");
+      }
       
-      return action.status;
+      return response.status;
       
     } catch (error : any) {
       throw error;

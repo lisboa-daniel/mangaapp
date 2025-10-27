@@ -48,7 +48,7 @@ type DecodedSessionPayload = {
 }
 
 
-type Boookmark = {
+type Bookmark = {
     id: string,
     userId: string,
     name: string,

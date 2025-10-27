@@ -124,6 +124,7 @@ export function Navbar() {
                             <a title="home" href="/" aria-label="home"><Logo className="mr-2"/></a>
 
                             
+
                             <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
@@ -210,6 +211,7 @@ export function Navbar() {
                             {settings.map((value, index) => (
                                 <MenuItem key={index} onClick={() => {
                                     setUserId('');
+                                    handleCloseUserMenu();
                                     logout();
 
                                 }}>
