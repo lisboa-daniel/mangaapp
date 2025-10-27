@@ -23,6 +23,7 @@ export type FormState =
         name?: string[]
         email?: string[]
         password?: string[]
+        invalidPassword?: string[]
       }
       message?: string
     }

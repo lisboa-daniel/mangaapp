@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Logo } from "./logo";
 
 
@@ -23,6 +23,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Avatar, Container, Menu, MenuItem, Tooltip } from "@mui/material";
 import TabLink from "./tabLink";
+import { getUserFromSession, logout } from '../actions/auth';
 
 export function Navbar() {
     
@@ -64,6 +65,12 @@ export function Navbar() {
             href: "/profile"
             
         },
+
+        {
+            title: "Bookmarks",
+            href: "/bookmarks"
+            
+        },
         
 
     ];
@@ -75,6 +82,24 @@ export function Navbar() {
     const navigateTo = (href : string) => {
         router.replace(href);
     }
+
+    const [userId, setUserId] = useState<string | undefined>();
+    const getUserSession = async () => {
+        const session : DecodedSessionPayload  | null = await getUserFromSession();
+
+        if (session) {
+            setUserId(session.id);
+        }
+    }
+
+    useEffect(() => {
+        getUserSession();
+    }, [active])
+
+
+    useEffect(() => {
+        getUserSession();
+    }, [])
 
     return (
         <div>
@@ -128,8 +153,9 @@ export function Navbar() {
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', alignItems: 'center' } }}>
                       
                             
-                            <a title="home" href="/" aria-label="home"><Logo className="mr-6"/></a>           
-                            {links.map((value, index) => (
+                            <a title="home" href="/" aria-label="home"><Logo className="mr-6"/></a>   
+                           
+                            {(userId) && links.map((value, index) => (
 
                             <span className="m-2" key={index}>
                                 <Button
@@ -148,11 +174,23 @@ export function Navbar() {
                         
                         </Box>
                         <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                            </Tooltip>
+                            {userId &&
+                                (<Tooltip title="Open account">
+                                    
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt={userId} src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>)
+                            }
+
+                            {
+                                !userId && (
+                                    <span className='flex flex-row gap-3'>
+                                        <a href='/signin'><Button variant='contained'>Login</Button></a>
+                                        <a href='/signup'><Button variant='contained'>Sign Up</Button></a>
+                                    </span>
+                                )
+                            }
                             <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
@@ -170,7 +208,11 @@ export function Navbar() {
                             onClose={handleCloseUserMenu}
                             >
                             {settings.map((value, index) => (
-                                <MenuItem key={index} onClick={handleCloseUserMenu}>
+                                <MenuItem key={index} onClick={() => {
+                                    setUserId('');
+                                    logout();
+
+                                }}>
                                 <Typography sx={{ textAlign: 'center' }}>{value.title}</Typography>
                                 </MenuItem>
                             ))}
