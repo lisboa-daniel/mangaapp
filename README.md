@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Introduction
 
-## Getting Started
+Manga app is a simple web app to catalog manga and manage the reading status.
+Made with [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This project require a API that can be found in [`simple-manga-api`](https://github.com/lisboa-daniel/simple-manga-api) repository 
 
-First, run the development server:
+## Getting Started to run locally
+
+Use your favoite package manager to install dependencies.
+Example.
+
+```bash
+npm install
+```
+
+Configure your environment, creating a `.env ` file with this entries:
+```bash
+API_URL="<api_endpoint>"
+JWT_SECRET="<number>"
+```
+
+* API_URL is the <host>/api/ endpoint of [`simple-manga-api`](https://github.com/lisboa-daniel/simple-manga-api)
+* JWT_SECRET is the [`secret`](https://auth0.com/docs/secure/tokens/json-web-tokens#:~:text=JSON%20web%20token%20(JWT)%2C,token%20is%20always%20a%20JWT.) used for creating sessions that you need to generate
+
+To run the developer environment:
 
 ```bash
 npm run dev
@@ -14,23 +34,15 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To build and run:
+```bash
+npm run build
+npm run start
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+With the api running open: [http://localhost:3000](http://localhost:3000) with your browser to see the result. (the port may vary)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Demo
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A demo featuring the app will be deployed soon
