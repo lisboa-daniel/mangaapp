@@ -42,6 +42,13 @@ npm run start
 
 With the api running open: [http://localhost:3000](http://localhost:3000) with your browser to see the result. (the port may vary)
 
+## Goals
+
+* Be able to register what chapters of each title was read
+* Be able to manage manga library
+* Be able to create bookmark lists
+* Basic library management permissions
+* User registration and login
 
 ## Demo
 
