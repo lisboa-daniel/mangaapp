@@ -2,13 +2,19 @@
 
 import { useManga } from "@/app/context/mangaContext";
 import { CreateManga, DeleteManga, GetMangaById, UpdateManga } from "@/app/lib/actions";
-import { DeleteForever, Save, UploadFile } from "@mui/icons-material";
+import { ArrowForward, DeleteForever, ImageSearch, Save, UploadFile } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as UC from '@uploadcare/file-uploader';
 import '@uploadcare/file-uploader/web/uc-file-uploader-minimal.min.css';
 import dynamic from "next/dynamic";
+import FileUpload from "@/app/components/fileupload";
+import Overlay from "@/app/components/overlay";
+
+import { UploadClient } from '@uploadcare/upload-client'
+
+
 const UploadcareUploader = dynamic(
   () => import('@/app/components/fileuploader'),
   { 
@@ -21,8 +27,8 @@ export default function Page() {
 
     UC.defineComponents(UC);
     const [manga, setManga] = useState<Manga | undefined>();
-
-
+    const [openFile, setOpenFile] = useState<boolean>(false);
+    const [imageImport, setImageImport] = useState<string>('');
     const params = useSearchParams();
 
     useEffect( () => {
@@ -125,6 +131,31 @@ export default function Page() {
     const [ISBN, setISBN] = useState<string>('');
     const [imagePath, setImagePath] = useState<string>('/defaultCover.png');
     
+
+    const uploadfromUrl = async (url : string) => {
+        const client = new UploadClient({ publicKey: `${process.env.NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY}` });
+
+        try {
+       
+            const uploadedFile = await client.uploadFile(url);
+
+
+            if (uploadedFile){
+                setImagePath(`${process.env.NEXT_PUBLIC_UPLOADCARE_APPURI}${uploadedFile.uuid}/`);
+
+                setOpenFile(false);
+            }
+        
+
+           
+
+
+           
+        } catch (err) {
+            console.error('Upload failed:', err);
+       
+        }
+    }
   
     return (
         <main className="w-full flex justify-center p-8 min-h-[88vh]">
@@ -203,10 +234,10 @@ export default function Page() {
                  <img src={imagePath}/>
                 {/* <Button startIcon=  {<UploadFile/>} variant="outlined">Upload Cover</Button> */}
 
-               
-                        
-                <UploadcareUploader onChange={(fileUrl) => setImagePath(fileUrl)}/>
-                <TextField
+               {/*<FileUpload action={(e) => setImagePath(e)}/>*/}
+               <Button variant="outlined" startIcon={<ImageSearch/>} onClick={() => setOpenFile(true)}> Add image </Button>
+
+               <TextField
                     value={imagePath}
                     onChange={(e) => setImagePath(e.target.value)}
                     label="Image URL"
@@ -216,6 +247,23 @@ export default function Page() {
             </span>
 
         </div>
+
+        <Overlay open={openFile} setOpen={setOpenFile}>
+        <div className="flex flex-col rounded-xl bg-gray-700 w-[400px] h-[250px] p-4 gap-2 items-center justify-center">
+                    <span className="flex flex-row gap-2 p-2">
+                        <TextField value={imageImport} onChange={(e) => setImageImport(e.target.value)} label="Image Url"/><Button variant="contained" startIcon={<ArrowForward/>} onClick={(e) => {
+                            uploadfromUrl(imageImport)
+                        }}>Import</Button>
+                    </span>
+
+                    
+                    <FileUpload action={(e) => {
+                        setImagePath(e);
+                        setOpenFile(false);
+                        
+                        }}/>
+        </div>
+        </Overlay>
     </main>
     );
 }

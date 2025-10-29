@@ -40,8 +40,14 @@ function MangaItem({data} : {data:Manga}){
                   <a href={`catalog/manga/${data.id}`}><p className='w-full text-center mb-2'>{data.title}</p></a>
                   <div id='mangapanel' className='flex flex-row gap-2 items-center justify-center'  onMouseLeave={() => setOptionsHover(false)} >
                     
-                    <Box sx={{position: 'relative', zIndex: 1}} onMouseEnter={() => setOptionsHover(true)} onClick={(e) => setOptionsHover(!optionsHover)}>                    
-                      <img className='rounded float-left w-[200px]' src={data.picture}  />
+                    <Box sx={{position: 'relative', zIndex: 1, height: '320px', maxHeight: '320px'}} onMouseEnter={() => setOptionsHover(true)} onClick={(e) => setOptionsHover(!optionsHover)}> 
+
+                      {/* <div style={{
+                        backgroundImage: data.picture,
+                        width: '200px'
+                      }} className={` w-[200px] h-[375px]`}>
+                      </div>                    */}
+                      <img className='rounded float-left h-[300px]' src={data.picture}  />
 
                       <div className='flex flex-col gap-2 absolute z-2 items-center justify-end w-full h-full '>
                         <Box sx={{opacity: optionsHover? 1 : 0}} className={`flex flex-col items-center justify-end w-full  p-2 bg-black/50 transition-opacity ease-in-out ${(optionsHover) ? 'opacity-100' : 'opacity-0'}}`}>

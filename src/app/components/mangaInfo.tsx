@@ -33,7 +33,7 @@ async function MangaItem({ data }: { data: Manga }) {
 
       <div id="mangapanel" className="flex gap-3 items-center justify-center">
         <div className="flex gap-2 md:flex-row flex-col">
-          <img className="rounded w-[280px]" src={data.picture} alt={data.title} />
+          <img className="rounded w-[200px] " src={data.picture} alt={data.title} />
           <p className="text-justify mt-2 max-w-[320px]">{data.synopsis}</p>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { getUserFromSession } from "../actions/auth";
+import { UploadClient } from '@uploadcare/upload-client';
 
 const API_URI = process.env.API_URL + "manga";
 
@@ -140,4 +141,38 @@ export async function GetBookmarks() {
     }
   }
   
+}
+
+
+
+export  async function fileupload(data : File) : Promise<string | undefined> {
+
+  const ext = getFileExtension(data.name);
+
+  const client = new UploadClient({ publicKey: `${process.env.NEXT_UPLOADCARE_KEY}` });
+
+  try {
+
+    const file = await client.uploadFile(data, {
+      fileName: data.name,
+      contentType: `image/${ext}`
+    })
+    
+
+    if (file) {
+      return file.cdnUrl;
+    }
+
+    return undefined;
+  } catch (err : any){
+    throw err;
+  }
+
+
+}
+
+function getFileExtension(filename : string) {
+  const regex = /(?:\.([^.]+))?$/;
+  const match = filename.match(regex);
+  return match ? match[1] : undefined;
 }
