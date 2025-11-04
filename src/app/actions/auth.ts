@@ -106,7 +106,7 @@ async function Login(email : string) {
 
 
   if (!response.ok) {
-    console.error('Failed to create user:', response.statusText);
+    console.error('Failed to find user:', response.statusText);
     return null;
   } 
 

@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { getUserFromSession } from "../actions/auth";
 import { UploadClient } from '@uploadcare/upload-client';
 
-const API_URI = process.env.API_URL + "manga";
+const API_URI = process.env.API_URL + "Manga";
 
 
-export async function DeleteManga(id : number) : Promise<number> {
+export async function DeleteManga(id : string) : Promise<number> {
     try {
 
         const options: RequestInit = {
@@ -58,7 +58,7 @@ export async function CreateManga(item : NewMangaEntity) : Promise<number> {
 }
 
 
-export async function UpdateManga(id : number, item : NewMangaEntity) : Promise<number> {
+export async function UpdateManga(id : string, item : NewMangaEntity) : Promise<number> {
     try {
 
         const options: RequestInit = {
@@ -99,6 +99,7 @@ export async function GetAllManga() : Promise<Manga[] > {
         return [];
 
     } catch (error : any){
+        console.error(error.message);
         throw error;
     }
 

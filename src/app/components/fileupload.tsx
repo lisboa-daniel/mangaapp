@@ -78,7 +78,7 @@ export default function FileUpload({action} : FileUploadProps) {
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
                 >
-                Upload image from computer
+                Upload image from device
                 <VisuallyHiddenInput
                     type="file"
                     accept="image/*"

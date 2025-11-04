@@ -6,30 +6,32 @@ type Link =  {
 }
 
 type Manga = {
-    id : number
-    title: string
-    author: string
-    status: string
-    tags: string[]
-    demographic: string
-    serialization: string
-    picture: string
-    ISBN: string
-    synopsis?: string
-    createdAt : string
-    updatedAt : string
+    id : string,
+    submited_by : string,
+    title: string,
+    author: string,
+    status: number,
+    tags: string[],
+    demographic: string,
+    serialization: string,
+    picture: string,
+    isbn: string,
+    synopsis?: string,
+    created_at : string,
+    updated_at : string
 }
 
 type NewMangaEntity =  {
-    title: string
-    author: string
-    status: string
-    tags: string[]
-    demographic: string
-    serialization: string
-    picture: string
-    ISBN: string
-    synopsis?: string
+    submited_by : string,
+    title: string,
+    author: string,
+    status: number,
+    tags: string[],
+    demographic: string,
+    serialization: string,
+    picture: string,
+    isbn: string,
+    synopsis?: string,
 
 }
 

@@ -71,6 +71,7 @@ export default function Page() {
     const saveData = async () => {
 
         const body : NewMangaEntity = {
+            submited_by: "e174e9fd-0476-49e1-992e-8ab5dc7ec529",
             title : title,
             author: author,
             status: status,
@@ -78,7 +79,7 @@ export default function Page() {
             demographic: demographic,
             serialization: serialization,
             picture: imagePath,
-            ISBN: ISBN,
+            isbn: ISBN,
             synopsis: synopsis,
         
 
@@ -114,7 +115,7 @@ export default function Page() {
         setDemographic(manga.demographic);
         setSerialization(manga.serialization);
         setSynopsis((manga.synopsis) ? manga.synopsis : "");
-        setISBN((manga.ISBN) ? manga.ISBN : "");
+        setISBN((manga.isbn) ? manga.isbn : "");
         setImagePath(manga.picture);
     }
     }, [manga]);
@@ -123,7 +124,7 @@ export default function Page() {
 
     const [title, setTitle] = useState<string>('');
     const [author, setAuthor] = useState<string>('');
-    const [status, setStatus] = useState<string>('');
+    const [status, setStatus] = useState<number>(0);
     const [tags, setTags] = useState<string>('');
     const [demographic, setDemographic] = useState<string>('');
     const [serialization, setSerialization] = useState<string>('');
@@ -178,7 +179,7 @@ export default function Page() {
                     />
                     <TextField
                     value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => setStatus(parseInt(e.target.value))}
                     label="Status"
                     id="status"
                     aria-label="status_input"
