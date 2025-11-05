@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getUserFromSession } from "../actions/auth";
 import { UploadClient } from '@uploadcare/upload-client';
 
-const API_URI = process.env.API_URL + "Manga";
+const API_URI = process.env.API_URL;
 
 
 export async function DeleteManga(id : string) : Promise<number> {
@@ -17,7 +17,7 @@ export async function DeleteManga(id : string) : Promise<number> {
           }
         }
 
-      const action = await fetch(`${API_URI}/${id}`, options);
+      const action = await fetch(`${API_URI}manga/${id}`, options);
 
       if (!action.ok) {
         console.error(action.json());
@@ -41,7 +41,7 @@ export async function CreateManga(item : NewMangaEntity) : Promise<number> {
           body: JSON.stringify(item),
         }
 
-      const response = await fetch(`${API_URI}`, options);
+      const response = await fetch(`${API_URI}manga/`, options);
 
       if (response.status != 201) {
         console.error(response.json());
@@ -69,7 +69,7 @@ export async function UpdateManga(id : string, item : NewMangaEntity) : Promise<
           body: JSON.stringify(item),
         }
 
-      const action = await fetch(`${API_URI}/${id}`, options);
+      const action = await fetch(`${API_URI}manga/${id}`, options);
 
       if (!action.ok) {
         console.error(action.json());
@@ -87,7 +87,7 @@ export async function GetAllManga() : Promise<Manga[] > {
 
     try {
 
-        const response = await fetch(`${API_URI}`);
+        const response = await fetch(`${API_URI}manga`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -105,9 +105,31 @@ export async function GetAllManga() : Promise<Manga[] > {
 
 }
 
+
+export async function GetMangaByBookmarkList(bookmarkId : string) : Promise<Manga[] | undefined> {
+  try {
+
+    const response = await fetch(`${API_URI}bookmarkEntry/manga/${bookmarkId}`);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    
+    if (result)
+        return result as Manga[];
+
+    return [];
+
+} catch (error : any){
+    console.error(error.message);
+    throw error;
+}
+
+}
+
 export async function GetMangaById(id: string): Promise<Manga | undefined> {
     try {
-      const response = await fetch(`${API_URI}/${id}`);
+      const response = await fetch(`${API_URI}manga/${id}`);
   
       if (response.status != 200) {
         throw new Error(`HTTP error! status: ${response.status}`);

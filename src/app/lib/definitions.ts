@@ -18,7 +18,9 @@ type Manga = {
     isbn: string,
     synopsis?: string,
     created_at : string,
-    updated_at : string
+    updated_at : string,
+    maxChapter?: number,
+    maxVolume? : number
 }
 
 type NewMangaEntity =  {
@@ -60,4 +62,7 @@ type Bookmark = {
 }
 
 
-
+type BookmarkWithData = {
+    bookmark: Bookmark 
+    titles: Manga[]
+}

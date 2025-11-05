@@ -1,20 +1,38 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { GetBookmarks } from "../lib/actions";
+import { GetBookmarks, GetMangaByBookmarkList } from "../lib/actions";
 import { Button, Divider, TextField } from "@mui/material";
 import { BookmarkAdd } from "@mui/icons-material";
+import BookmarkList from "../components/bookmarkList";
 
 
 export default function Profile() {
 
-    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+    const [bookmarks, setBookmarks] = useState<BookmarkWithData[]>([]);
+    
 
     const getBookmarks = async () => {
         const result : Bookmark[] | undefined = await GetBookmarks();
 
+        let resultWithTitleData : BookmarkWithData[] = [];
+
         if (result) {
-            setBookmarks(result);
+          for (const bk of result as Bookmark[]) {
+                let titles : Manga[] = [];
+
+                const foundTitles : Manga[] | undefined = await GetMangaByBookmarkList(bk.id);
+
+                if (foundTitles)
+                    titles = foundTitles as Manga[];
+
+
+
+                resultWithTitleData.push({ bookmark: bk, titles: titles });
+            }
+           
+            setBookmarks(resultWithTitleData);
+            
         }
 
     }
@@ -36,12 +54,15 @@ export default function Profile() {
             {
                 bookmarks.map( (value, index) => (
                    <li key={index}> 
-                        <p className="font-bold">{value.name}</p>
+                        
+                        <BookmarkList defaultValue={(index ==0)} data={value}/>
                    </li> 
                 ))
             }
             </ul>
             </div>
+
+            
             
         </main>
     );
