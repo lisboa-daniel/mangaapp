@@ -3,7 +3,7 @@
 import { useManga } from "@/app/context/mangaContext";
 import { CreateManga, DeleteManga, GetMangaById, UpdateManga } from "@/app/lib/actions";
 import { ArrowForward, DeleteForever, ImageSearch, Save, UploadFile } from "@mui/icons-material";
-import { Button, TextField } from "@mui/material";
+import { Button, InputLabel, LinearProgress, MenuItem, Select, TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as UC from '@uploadcare/file-uploader';
@@ -29,6 +29,10 @@ export default function Page() {
     const [manga, setManga] = useState<Manga | undefined>();
     const [openFile, setOpenFile] = useState<boolean>(false);
     const [imageImport, setImageImport] = useState<string>('');
+
+    const [saving , setSaving] = useState<boolean>(false);
+
+
     const params = useSearchParams();
 
     useEffect( () => {
@@ -96,6 +100,8 @@ export default function Page() {
                 const response = UpdateManga(manga.id , body);
                 console.log(await response);
             }
+
+            setSaving(false);
        
 
 
@@ -177,13 +183,10 @@ export default function Page() {
                     id="author"
                     aria-label="author_input"
                     />
-                    <TextField
-                    value={status}
-                    onChange={(e) => setStatus(parseInt(e.target.value))}
-                    label="Status"
-                    id="status"
-                    aria-label="status_input"
-                    />
+               
+
+                   
+
                     <TextField
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
@@ -224,7 +227,21 @@ export default function Page() {
                     aria-label="isbn_input"
                     />
 
-                <Button onClick={saveData} startIcon={<Save/>} variant="outlined">Save</Button>
+                    <InputLabel className="mt-2" id="status-label">Status:</InputLabel>
+                    <Select
+                        labelId="status-label"
+                        id="status_input"
+                        value={status}
+                        label="Status"
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <MenuItem value={0}>Publishing</MenuItem>
+                        <MenuItem value={1}>Completed</MenuItem>
+                        <MenuItem value={2}>Hiatus</MenuItem>
+                    </Select>
+
+                {(saving) && <LinearProgress/>}
+                <Button onClick={() => {setSaving(true); saveData(); }} startIcon={<Save/>} variant="outlined">Save</Button>
                 {(manga) && <Button onClick={deleteData} startIcon={<DeleteForever/>} variant="outlined">Delete Entry</Button>}
          
             </span>

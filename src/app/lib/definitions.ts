@@ -40,6 +40,7 @@ type User = {
   name: string
   email: string
   password: string
+  role?: number
 }
 
  
@@ -57,3 +58,6 @@ type Bookmark = {
     createdAt: string,
     updatedAt: string
 }
+
+
+

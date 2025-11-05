@@ -6,6 +6,7 @@ import * as argon2 from "argon2";
 import { redirect } from 'next/navigation';
 
 
+
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get('name'),
@@ -22,7 +23,7 @@ export async function signup(state: FormState, formData: FormData) {
   let user : any | undefined = undefined;
 
   
-  user = await NewUser({ name, email, password: hashedPassword });
+  user = await NewUser({ name: name, email: email, password: hashedPassword, role: 1 });
   
 
   if (!user) return { message: 'Failed to create user.' };
@@ -43,7 +44,7 @@ export async function signup(state: FormState, formData: FormData) {
           maxAge: 60 * 60 * 24 * 7, // 7 days
         });
 
-        redirect('/catalog');
+        redirect('/signin/redirect');
       }
 
 }
@@ -84,9 +85,12 @@ export async function signin(state: FormState, formData: FormData) {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      
-      redirect('/catalog');
-      
+
+
+   
+
+      redirect('/signin/redirect');
+     
     }
      
   }
@@ -158,7 +162,7 @@ export async function logout(){
 
 
 
-  redirect('/?refresh=1');
+  redirect('/logout');
   
 }
 

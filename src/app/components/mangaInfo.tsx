@@ -14,6 +14,7 @@ interface PageProps { params: Promise<{ id: string; }>; }
 
 import { redirect } from "next/navigation";
 import { use } from "react";
+import { PublishStatusDict } from "../lib/util";
 
 export async function redirectTo(uri: string) {
   redirect(uri);
@@ -22,9 +23,9 @@ export async function redirectTo(uri: string) {
 async function MangaItem({ data }: { data: Manga }) {
   const infoList: InfoPanel[] = [
     { label: "Author", value: data.author ?? "" },
-    { label: "Status", value: data.status ?? "" },
+    { label: "Status", value: PublishStatusDict[data.status] ?? "" },
     { label: "Demographic", value: data.demographic ?? "" },
-    { label: "ISBN", value: data.ISBN ?? "" },
+    { label: "ISBN", value: data.isbn ?? "" },
   ];
 
   return (

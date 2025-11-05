@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { Activity, ReactNode, useEffect, useState } from "react";
 import { Logo } from "./logo";
 
 
@@ -24,12 +24,17 @@ import Button from '@mui/material/Button';
 import { Avatar, Container, Menu, MenuItem, Tooltip } from "@mui/material";
 import TabLink from "./tabLink";
 import { getUserFromSession, logout } from '../actions/auth';
+import { useUser } from '../context/userContext';
+
+
 
 export function Navbar() {
     
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  
+    const {userId, setUserId} = useUser();
+
+
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -82,24 +87,6 @@ export function Navbar() {
     const navigateTo = (href : string) => {
         router.replace(href);
     }
-
-    const [userId, setUserId] = useState<string | undefined>();
-    const getUserSession = async () => {
-        const session : DecodedSessionPayload  | null = await getUserFromSession();
-
-        if (session) {
-            setUserId(session.id);
-        }
-    }
-
-    useEffect(() => {
-        getUserSession();
-    }, [active])
-
-
-    useEffect(() => {
-        getUserSession();
-    }, [])
 
     return (
         <div>
@@ -155,22 +142,25 @@ export function Navbar() {
                       
                             
                             <a title="home" href="/" aria-label="home"><Logo className="mr-6"/></a>   
-                           
-                            {(userId) && links.map((value, index) => (
+                            <Activity mode={(userId) ? "visible" : "hidden" }>
+                                
+                            
+                                {links.map((value, index) => (
 
-                            <span className="m-2" key={index}>
-                                <Button
-                                    
-                                    onClick={() => navigateTo(value.href)}
+                                <span className="m-2" key={index}>
+                                    <Button
+                                        
+                                        onClick={() => navigateTo(value.href)}
 
-                                    sx={{ my: 2, display: 'block', fontSize: '16px', color: "#eeeeee", margin:"0px" }}
-                                >
-                                    {value.title}
-                                </Button>
+                                        sx={{ my: 2, display: 'block', fontSize: '16px', color: "#eeeeee", margin:"0px" }}
+                                    >
+                                        {value.title}
+                                    </Button>
 
-                                <div className={`bg-foreground ${(active==value.href) ? 'w-full' : 'w-[0px]'} h-[4px] transition-all`}/>
-                            </span>
-                            ))} 
+                                    <div className={`bg-foreground ${(active==value.href) ? 'w-full' : 'w-[0px]'} h-[4px] transition-all`}/>
+                                </span>
+                                ))} 
+                            </Activity>
                             
                         
                         </Box>
@@ -185,7 +175,7 @@ export function Navbar() {
                             }
 
                             {
-                                !userId && (
+                                (!userId && userId != '') && (
                                     <span className='flex flex-row gap-3'>
                                         <a href='/signin'><Button variant='contained'>Login</Button></a>
                                         <a href='/signup'><Button variant='contained'>Sign Up</Button></a>
@@ -210,7 +200,7 @@ export function Navbar() {
                             >
                             {settings.map((value, index) => (
                                 <MenuItem key={index} onClick={() => {
-                                    setUserId('');
+                              
                                     handleCloseUserMenu();
                                     logout();
 

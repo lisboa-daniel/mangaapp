@@ -12,6 +12,7 @@ import { MangaProvider, useManga } from "./context/mangaContext";
 import { Suspense, useEffect } from "react";
 import { GetAllManga } from "./lib/actions";
 import { Skeleton } from "@mui/material";
+import { UserContext, UserProvider, useUser } from "./context/userContext";
 
 
 
@@ -51,30 +52,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-
-  //   useEffect(() => {
-  //   const fetchMangas = async () => {
-  //     const data = await GetAllManga(); // returns Manga[]
-  //     setMangas(data);
-  //   };
-
-  //   fetchMangas();
-  // }, []);
-
+ 
   
   return (
-    <ThemeProvider theme={theme}>
-      <html lang="en">
-        <body>
-          <Suspense fallback={<Skeleton />}>
-            <Navbar/>
-          </Suspense>
-          {children}
-          <Footer/>
-        </body>
-      </html>
-    </ThemeProvider> 
- 
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <html lang="en">
+          <body>
+            
+              <Navbar />
+          
+            {children}
+            <Footer/>
+          </body>
+        </html>
+      </ThemeProvider> 
+    </UserProvider>
+  
  
   );
 }
