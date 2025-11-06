@@ -3,9 +3,10 @@
 
 import { Login } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { signin, signup } from "../actions/auth";
+import { useUser } from "../context/userContext";
 
 
 export default function Page() {
@@ -20,6 +21,7 @@ export default function Page() {
     
     const [state, action, pending] = useActionState(signin, undefined);
 
+    
     return (
         <main className="w-full flex justify-center items-center p-8 min-h-[88vh]">
         <div id="form-new-manga" className="flex flex-col md:flex-row p-2 ">
