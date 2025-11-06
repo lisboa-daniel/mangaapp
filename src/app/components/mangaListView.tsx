@@ -7,6 +7,8 @@ import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
+import MangaManageList from './mangaManageList';
+import { useUser } from '../context/userContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -30,11 +32,15 @@ function MangaItem({data, readData} : {data:Manga, readData : boolean}){
 
   const router = useRouter();
 
+  const {userId} = useUser();
+  
+
   const goToPage = (uri : string) => {
   
     window.location.href = uri ;
   }
   const [optionsHover, setOptionsHover] = useState<Boolean>(false);
+  const [manageList, setManageList] = useState<boolean>(false);
 
   return (
         <div className='flex flex-col p-2 items-center justify-center'>
@@ -54,14 +60,15 @@ function MangaItem({data, readData} : {data:Manga, readData : boolean}){
                         <Box sx={{opacity: optionsHover? 1 : 0}} className={`flex flex-col items-center justify-end w-full  p-2 bg-black/50 transition-opacity ease-in-out ${(optionsHover) ? 'opacity-100' : 'opacity-0'}}`}>
                             <span id='menuButtons' className='flex flex-col pointer-events-auto gap-2 z-3 w-full' onClick={(e) => e.stopPropagation()}>
 
-                              <Button variant='outlined'>Add to list</Button>
+                            {userId && <Button variant='outlined' onClick={() => setManageList(true)}>Manage</Button>}
                               <Button onClick={() => goToPage(`/catalog/manga/${data.id}`)} variant='outlined'>Details</Button>
                               
                               <div className='border border-solid border-[#86c3c6] rounded p-2'>
-                                <p className='text-primary-500'>Chapters Read</p>
+                                <p className='text-primary-500'>{readData? "Chapters Read" : "Chapters"}</p>
                                   <span className='flex flex-row gap-2 items-center justify-center'>
                                     {/* <Button sx={{width: '10px'}} variant='outlined'>-</Button> */}
-                                    <TextField className="text-sm"
+                                    {
+                                    readData &&  <><TextField className="text-sm"
 
                                     sx={{
                                       "& .MuiOutlinedInput-input": {
@@ -72,7 +79,7 @@ function MangaItem({data, readData} : {data:Manga, readData : boolean}){
                                       },
                                     }}
                                     />
-                                    <p>/</p>
+                                    <p>/</p></>}
                                     <TextField className="text-sm"
                                  
                                     aria-readonly
@@ -102,6 +109,8 @@ function MangaItem({data, readData} : {data:Manga, readData : boolean}){
                       </Box>
                   </div>
                      <p className='synopsis text-justify mt-2 '>{data.synopsis}</p>
+
+                     {userId && <MangaManageList open={manageList} setOpen={setManageList} data={data} />}
                   
               </div>
   );

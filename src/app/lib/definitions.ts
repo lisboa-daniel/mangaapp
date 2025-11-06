@@ -66,3 +66,9 @@ type BookmarkWithData = {
     bookmark: Bookmark 
     titles: Manga[]
 }
+
+
+type BookmarkEntry = {
+    bookmarkId : string,
+    titleId : string
+}

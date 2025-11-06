@@ -106,6 +106,28 @@ export async function GetAllManga() : Promise<Manga[] > {
 }
 
 
+export async function GetBookmarksByMangaId(titleId : string) : Promise<Bookmark[] | undefined> {
+
+  let userId = ""
+  const session : DecodedSessionPayload | null = await getUserFromSession();
+  if (session) {
+    userId  = session.id;
+
+  }
+
+
+  try {
+      const response = await fetch(`${API_URI}bookmark/user/${userId}/manga/${titleId}`);
+
+      return await response.json();
+
+  } catch (error) {
+    throw error;
+  }
+
+
+}
+
 export async function GetMangaByBookmarkList(bookmarkId : string) : Promise<Manga[] | undefined> {
   try {
 
@@ -143,6 +165,30 @@ export async function GetMangaById(id: string): Promise<Manga | undefined> {
     }
   }
 
+
+export async function CreateBookmarkEntry(item : BookmarkEntry) : Promise<number>{
+  try {
+
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    }
+
+  const response = await fetch(`${API_URI}bookmarkEntry/`, options);
+
+  if (response.status != 201) {
+    console.error(response.json());
+  }  
+
+  return response.status;
+  
+} catch (error : any) {
+  throw error;
+} 
+}
 
 
 export async function GetBookmarks() {
