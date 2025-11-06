@@ -61,12 +61,14 @@ export async function signin(state: FormState, formData: FormData) {
   user = await Login(email);
   
 
-  if (!user) return { message: 'Failed to login.' };
+  if (!user) return { message: 'This user does not exist' };
   else {
   
     if (!(await argon2.verify(user.password, password))){
 
       console.error(`invalid credentials\n${user.password}\n${hashedPassword}`);
+
+      return { message: 'Invalid credentials' }; ;
       
     } else {
       // Create a JWT token

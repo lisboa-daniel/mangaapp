@@ -32,7 +32,7 @@ export default function BookmarkList({defaultValue=false, data} : BookmarkListPr
         <Divider className='w-[400px] mb-4' flexItem orientation='horizontal'/>
         <Collapse in={open} timeout="auto" unmountOnExit>
             <div className='ml-5 mt-2'>
-               {data.titles && <MangaListView list={data.titles}/>}
+               {data.titles && <MangaListView readData={true} list={data.titles}/>}
 
                {(data.titles && (!(data.titles.length > 0))) && <p>List is empty.</p>}
             </div>

@@ -22,10 +22,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 interface MangaListViewProps {
   list : Manga[];
+  readData: boolean;
 }
 
 
-function MangaItem({data} : {data:Manga}){
+function MangaItem({data, readData} : {data:Manga, readData : boolean}){
 
   const router = useRouter();
 
@@ -51,7 +52,7 @@ function MangaItem({data} : {data:Manga}){
 
                       <div className='flex flex-col gap-2 absolute z-2 items-center justify-end w-full h-full '>
                         <Box sx={{opacity: optionsHover? 1 : 0}} className={`flex flex-col items-center justify-end w-full  p-2 bg-black/50 transition-opacity ease-in-out ${(optionsHover) ? 'opacity-100' : 'opacity-0'}}`}>
-                            <span id='menuButtons' className='flex flex-col pointer-events-auto gap-2 z-3' onClick={(e) => e.stopPropagation()}>
+                            <span id='menuButtons' className='flex flex-col pointer-events-auto gap-2 z-3 w-full' onClick={(e) => e.stopPropagation()}>
 
                               <Button variant='outlined'>Add to list</Button>
                               <Button onClick={() => goToPage(`/catalog/manga/${data.id}`)} variant='outlined'>Details</Button>
@@ -61,26 +62,29 @@ function MangaItem({data} : {data:Manga}){
                                   <span className='flex flex-row gap-2 items-center justify-center'>
                                     {/* <Button sx={{width: '10px'}} variant='outlined'>-</Button> */}
                                     <TextField className="text-sm"
-                    
+
                                     sx={{
                                       "& .MuiOutlinedInput-input": {
                                         height: '17px', // Adjust as needed
                                         paddingTop: '2px', // Adjust padding for vertical alignment
                                         paddingBottom: '2px',
-                                        width: '12px',
+                                        width: '24px',
                                       },
                                     }}
                                     />
                                     <p>/</p>
                                     <TextField className="text-sm"
-                                    
-                    
+                                 
+                                    aria-readonly
+                                  
+                                    value={`${data.maxChapter}`}
                                     sx={{
                                       "& .MuiOutlinedInput-input": {
                                         height: '17px', // Adjust as needed
                                         paddingTop: '2px', // Adjust padding for vertical alignment
                                         paddingBottom: '2px',
-                                        width: '12px',
+                                        width: '24px',
+                                        fontSize: '14px'
                                       },
                                     }}
                                     />
@@ -103,7 +107,7 @@ function MangaItem({data} : {data:Manga}){
   );
 }
 
-export default function MangaListView({list} : MangaListViewProps) {
+export default function MangaListView({list, readData} : MangaListViewProps) {
 
   const [optionsHover, setOptionsHover] = useState<Boolean>(false);
 
@@ -115,7 +119,7 @@ export default function MangaListView({list} : MangaListViewProps) {
             <Item>
               
 
-              <MangaItem key={index} data={value}/>
+              <MangaItem readData={readData} key={index} data={value}/>
 
             </Item>
           </Grid>

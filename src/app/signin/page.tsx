@@ -53,6 +53,9 @@ export default function Page() {
                     name="password"
                     type="password"
                     />
+
+
+                    {state?.message && <p className="text-red-500">{state.message}</p>}
                     
                                     
 

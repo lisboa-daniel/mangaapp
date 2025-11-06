@@ -46,7 +46,7 @@ export default function List() {
           
         </div>
 
-        <MangaListView list={manga}/>
+        <MangaListView readData={false} list={manga}/>
         
 
       </main>
