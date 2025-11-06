@@ -142,12 +142,13 @@ export function Navbar() {
                       
                             
                             <a title="home" href="/" aria-label="home"><Logo className="mr-6"/></a>   
-                            <Activity mode={(userId) ? "visible" : "hidden" }>
+                            
                                 
                             
                                 {links.map((value, index) => (
 
                                 <span className="m-2" key={index}>
+                                   <Activity mode={(userId || value.href == "/catalog") ? "visible" : "hidden" }>
                                     <Button
                                         
                                         onClick={() => navigateTo(value.href)}
@@ -156,11 +157,14 @@ export function Navbar() {
                                     >
                                         {value.title}
                                     </Button>
-
+                                   
                                     <div className={`bg-foreground ${(active==value.href) ? 'w-full' : 'w-[0px]'} h-[4px] transition-all`}/>
+                                    </Activity>
+
+                                    
                                 </span>
                                 ))} 
-                            </Activity>
+                            
                             
                         
                         </Box>
