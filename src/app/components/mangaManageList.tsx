@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Overlay from "./overlay";
-import { CreateBookmarkEntry, GetBookmarks, GetBookmarksByMangaId } from "../lib/actions";
+import { CreateBookmarkEntry, DeleteBookmarkEntry, GetBookmarks, GetBookmarksByMangaId } from "../lib/actions";
 import { useUser } from "../context/userContext";
 import { Avatar, Button, Divider, IconButton, List, ListItem, ListItemAvatar, MenuItem, Select } from "@mui/material";
 import { Bookmark, BookmarkAdd, BookmarkOutlined, Delete } from "@mui/icons-material";
+import { redirect } from "next/navigation";
 
 
 
@@ -23,6 +24,52 @@ export default function MangaManageList({open, setOpen, data} : MangaManageListP
 
     const [selectedList, setSelectedList] = useState<string>('');
     const [bookmarkList, setBookmarkList] = useState<Bookmark[]>([]);
+
+
+    const newBookmarkEntry = async () => {
+        
+        try {
+            const response = await CreateBookmarkEntry(
+
+                {
+                    bookmarkId: selectedList,
+                    titleId: data.id
+                }
+    
+            );
+    
+            if (response) {
+                redirect("/bookmarks");
+            }
+        } catch (error : any) {
+            throw error.message;
+        }
+
+    }
+
+    const deleteBookmarkEntry = async (titleId : string, bookmarkId : string) => {
+
+        try {
+            const response = await DeleteBookmarkEntry(
+                bookmarkId, titleId
+            );
+
+            if (response == 200) {
+                console.log(response);
+
+                const toDelete = bookmarks.filter( bke => bke.id != bookmarkId);
+                setBookmarks(toDelete);
+                
+
+            }
+             
+    
+        } catch (error) {
+            throw error;
+        }
+        
+
+    }
 
     const getBookmarks = async () => {
         
@@ -71,7 +118,7 @@ export default function MangaManageList({open, setOpen, data} : MangaManageListP
                             bookmarks.map( (value, index) => (
                                 <ListItem key={index}
                                 secondaryAction={
-                                    <IconButton edge="end" aria-label="delete">
+                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteBookmarkEntry(value.id, data.id)}>
                                     <Delete />
                                     </IconButton>
                                 }
@@ -108,7 +155,7 @@ export default function MangaManageList({open, setOpen, data} : MangaManageListP
                         
                     </Select>
                     <span className="w-full flex items-center justify-center">
-                        <Button variant="outlined" startIcon={<BookmarkAdd/>}>  Add</Button>
+                        <Button variant="outlined" startIcon={<BookmarkAdd/>} onClick={newBookmarkEntry}>  Add</Button>
                     </span>
                     
                 </div>

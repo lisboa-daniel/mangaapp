@@ -184,10 +184,34 @@ export async function CreateBookmarkEntry(item : BookmarkEntry) : Promise<number
   }  
 
   return response.status;
-  
-} catch (error : any) {
+
+  } catch (error : any) {
   throw error;
-} 
+  } 
+}
+
+
+export async function DeleteBookmarkEntry(titleId : string, bookmarkId : string) : Promise<number> {
+  try {
+
+      const options: RequestInit = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+      }
+
+    const action = await fetch(`${API_URI}bookmarkEntry/${bookmarkId}/${titleId}`, options);
+
+    if (!action.ok) {
+      console.error(action.json());
+    }  
+    
+    return action.status;
+    
+  } catch (error : any) {
+    throw error;
+  } 
 }
 
 
