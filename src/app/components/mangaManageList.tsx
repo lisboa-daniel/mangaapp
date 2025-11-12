@@ -12,10 +12,11 @@ interface MangaManageListProps {
     open : boolean;
     setOpen : (action : boolean) => void;
     data : Manga;
+    onUpdate? : () => void;
 
 }
 
-export default function MangaManageList({open, setOpen, data} : MangaManageListProps) {
+export default function MangaManageList({open, setOpen, data, onUpdate} : MangaManageListProps) {
 
 
     const {userId} = useUser();
@@ -37,10 +38,13 @@ export default function MangaManageList({open, setOpen, data} : MangaManageListP
                 }
     
             );
-    
-            if (response) {
-                redirect("/bookmarks");
+
+            if (response){
+                setOpen(false);
+                window.location.reload();
             }
+    
+       
         } catch (error : any) {
             throw error.message;
         }
@@ -50,18 +54,21 @@ export default function MangaManageList({open, setOpen, data} : MangaManageListP
     const deleteBookmarkEntry = async (titleId : string, bookmarkId : string) => {
 
         try {
-            const response = await DeleteBookmarkEntry(
+            let response = await DeleteBookmarkEntry(
                 bookmarkId, titleId
             );
 
             if (response == 200) {
-                console.log(response);
+                setOpen(false);
+                window.location.reload();
 
-                const toDelete = bookmarks.filter( bke => bke.id != bookmarkId);
-                setBookmarks(toDelete);
-                
-
+            } else {
+                console.error("could not delete");
+                throw response
             }
+          
+
+           
              
     
         } catch (error) {

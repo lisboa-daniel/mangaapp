@@ -39,10 +39,14 @@ export default function Page() {
                     name="email"
                     id="email"
                     aria-label="email_input"
+                    sx={
+                        {
+                            width: "100%"
+                        }
+                    }
             
                     />
 
-                   
  
                     <TextField
                     value={password}
@@ -52,12 +56,15 @@ export default function Page() {
                     aria-label="password_input"
                     name="password"
                     type="password"
+                    sx={
+                        {
+                            width: "100%"
+                        }
+                    }
                     />
 
 
                     {state?.message && <p className="text-red-500">{state.message}</p>}
-                    
-                                    
 
                     <Button type="submit" startIcon={<Login/>} variant="contained">Login</Button>
                 </form>

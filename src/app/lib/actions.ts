@@ -201,7 +201,7 @@ export async function DeleteBookmarkEntry(titleId : string, bookmarkId : string)
         }
       }
 
-    const action = await fetch(`${API_URI}bookmarkEntry/${bookmarkId}/${titleId}`, options);
+    const action = await fetch(`${API_URI}bookmarkEntry/${titleId}/${bookmarkId}`, options);
 
     if (!action.ok) {
       console.error(action.json());

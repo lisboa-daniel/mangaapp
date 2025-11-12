@@ -36,6 +36,11 @@ export default function Page() {
                     name="name"
                     id="name"
                     aria-label="name_input"
+                    sx={
+                        {
+                            width: "100%"
+                        }
+                    }
                     />
 
                     {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -47,6 +52,11 @@ export default function Page() {
                     name="email"
                     id="email"
                     aria-label="email_input"
+                    sx={
+                        {
+                            width: "100%"
+                        }
+                    }
             
                     />
 
@@ -60,6 +70,11 @@ export default function Page() {
                     aria-label="password_input"
                     name="password"
                     type="password"
+                    sx={
+                        {
+                            width: "100%"
+                        }
+                    }
                     />
                      {state?.errors?.password && (
                            <div>
